@@ -180,6 +180,7 @@ MonoBehaviour:
   YoungMaterial: {fileID: 2100000, guid: 7af24a9ce675daa4b8883cb0c5e7f395, type: 2}
   NormalMaterial: {fileID: 2100000, guid: 55159b90507c004439dc0a14092e7bb0, type: 2}
   OldMaterial: {fileID: 2100000, guid: 0b192fc0ed3968e4598057776e15a13d, type: 2}
+  MiningSkill: 1
   State: 0
   timer: 2
 --- !u!1 &9196117564356200497

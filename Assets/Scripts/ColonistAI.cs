@@ -55,6 +55,13 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     private MeshRenderer[] colonistMeshRenderers = new MeshRenderer[2];
 
+    /// <summary>
+    /// 採掘スキルで高いほど速い
+    /// </summary>
+    [Range(0.5f,3f)]
+    public float MiningSkill = 1f;
+
+
     public ColonistState State;
     /// <summary>
     /// コロニストの状態を変更するためのタイマー
@@ -82,6 +89,7 @@ public class ColonistAI : MonoBehaviour
             RecoveryRate = 2f;
             FatigueRate = 0.5f;
             MoveSpeed = 5f;
+            MiningSkill = 3f;
 
             //foreachは配列に対してすべての要素に変更を加えたい時に使う
             foreach(var renderer in colonistMeshRenderers)
@@ -96,6 +104,7 @@ public class ColonistAI : MonoBehaviour
             RecoveryRate = 1f;
             FatigueRate = 1f;
             MoveSpeed = 2f;
+            MiningSkill = 2f;
             foreach (var renderer in colonistMeshRenderers)
             {
                 renderer.material = NormalMaterial;
@@ -107,6 +116,7 @@ public class ColonistAI : MonoBehaviour
             RecoveryRate = 0.5f;
             FatigueRate = 2f;
             MoveSpeed = 1f;
+            MiningSkill = 1f;
             foreach (var renderer in colonistMeshRenderers)
             {
                 renderer.material = OldMaterial;
@@ -166,7 +176,8 @@ public class ColonistAI : MonoBehaviour
                 //仮で採掘アニメーション再生の代わりにログを出力
                 Debug.Log("Colonist is mining!");
                 //毎フレーム回転させ続ける
-                transform.Rotate(Vector3.up * 30f * Time.deltaTime);
+                //1秒間にMiningSkillが３の人は360度一回転できる
+                transform.Rotate(Vector3.up * 120f *MiningSkill* Time.deltaTime);
 
                 //現在の体力を1秒間に10ポイント減らす
                 currentHealth -=FatigueRate* 10f * Time.deltaTime;
