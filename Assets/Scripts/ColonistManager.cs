@@ -8,7 +8,44 @@ public class ColonistManager : MonoBehaviour
     /// </summary>
     public ColonistAI[] Colonists;
 
-    
+    /// <summary>
+    /// コロニストのPrefab
+    /// </summary>
+    public GameObject ColonistPrefab;
+
+    /// <summary>
+    /// コロニストの数
+    /// </summary>
+    public int ColonistCount = 3;
+
+    /// <summary>
+    /// UnityEditorからColonistUIManager達を参照
+    /// </summary>
+    public ColonistUIManager[] ColonistUIManagers;
+
+
+    private void Start()
+    {
+        //コロニストの数分のColonistAIを準備
+        Colonists = new ColonistAI[ColonistCount];
+
+        //コロニストの数分、処理を実行する
+        for(int i = 0; i < ColonistCount; i++)
+        {
+            //登場する位置を決める(１体目は原点、2体目はX軸正の方向に２ｍ...
+            Vector3 position = new Vector3(i * 2, 0, 0);
+            //GameObjectをScene内に生成
+            GameObject instantiateObject= 
+                Instantiate(ColonistPrefab,position,Quaternion.identity);
+
+            //一斉命令用のColonistAIを生成したGameObjectから取得
+            Colonists[i] = instantiateObject.GetComponent<ColonistAI>();
+
+            //コロニストのUI表示用のマネージャーに生成されたColonistAIをセット
+            ColonistUIManagers[i].SetColonistAI(Colonists[i]);
+        }
+    }
+
 
     // Update is called once per frame
     void Update()

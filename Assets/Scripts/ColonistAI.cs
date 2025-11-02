@@ -28,7 +28,32 @@ public class ColonistAI : MonoBehaviour
     {
         get { return currentHealth; }
     }
+    /// <summary>
+    /// 疲労回復速度
+    /// </summary>
+    public float RecoveryRate = 1f;
 
+    /// <summary>
+    /// 疲れやすさ
+    /// </summary>
+    public float FatigueRate = 1f;
+
+    /// <summary>
+    /// コロニストの年齢
+    /// </summary>
+    public int ColonistAge = 20;
+
+    /// <summary>
+    /// 年齢によって色を変更する
+    /// </summary>
+    public Material YoungMaterial;
+    public Material NormalMaterial;
+    public Material OldMaterial;
+
+    /// <summary>
+    /// Colonistの３Dモデル表示部分
+    /// </summary>
+    private MeshRenderer[] colonistMeshRenderers = new MeshRenderer[2];
 
     public ColonistState State;
     /// <summary>
@@ -44,6 +69,50 @@ public class ColonistAI : MonoBehaviour
         State = ColonistState.Idle;
         currentHealth = MaxHealth;
         //現在の体力をMaxにする  
+
+        //3D表示部分を取得
+        colonistMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        //コロニストの年齢を決める
+        ColonistAge = Random.Range(18, 70);
+
+        //コロニストの年齢が20歳まで
+        if (ColonistAge < 20)
+        {
+            RecoveryRate = 2f;
+            FatigueRate = 0.5f;
+            MoveSpeed = 5f;
+
+            //foreachは配列に対してすべての要素に変更を加えたい時に使う
+            foreach(var renderer in colonistMeshRenderers)
+            {
+                renderer.material = YoungMaterial;
+
+
+            }
+        }
+        else if (ColonistAge < 40)
+        {
+            RecoveryRate = 1f;
+            FatigueRate = 1f;
+            MoveSpeed = 2f;
+            foreach (var renderer in colonistMeshRenderers)
+            {
+                renderer.material = NormalMaterial;
+
+            }
+        }
+        else //４０歳より上
+        {
+            RecoveryRate = 0.5f;
+            FatigueRate = 2f;
+            MoveSpeed = 1f;
+            foreach (var renderer in colonistMeshRenderers)
+            {
+                renderer.material = OldMaterial;
+
+            }
+        }
     }
 
     // Update is called once per frame
@@ -57,7 +126,7 @@ public class ColonistAI : MonoBehaviour
             case ColonistState.Idle://待機
 
                 //現在の体力をじわじわ回復させる
-                currentHealth += 2f * Time.deltaTime;
+                currentHealth += RecoveryRate*2f * Time.deltaTime;
                 //もしタイマーが０秒を下回ったら
                 if (timer <= 0f)
                 {
@@ -74,7 +143,7 @@ public class ColonistAI : MonoBehaviour
             transform.position, targetPosition, MoveSpeed * Time.deltaTime);
 
                 //現在の体力値から1秒間で５ポイント体力をへらす
-                currentHealth -= 5f * Time.deltaTime;
+                currentHealth -= FatigueRate * 5f * Time.deltaTime;
                 //現在の体力が20ポイント下回ったら
                 if(currentHealth <= 20f)
                 {
@@ -100,7 +169,7 @@ public class ColonistAI : MonoBehaviour
                 transform.Rotate(Vector3.up * 30f * Time.deltaTime);
 
                 //現在の体力を1秒間に10ポイント減らす
-                currentHealth -= 10f * Time.deltaTime;
+                currentHealth -=FatigueRate* 10f * Time.deltaTime;
 
                 //現在の体力が20ポイントより少なくなったら
                 if(currentHealth <= 20f)
@@ -117,17 +186,16 @@ public class ColonistAI : MonoBehaviour
                     timer = Random.Range(10f,15f);
                     //stateをColonistState.Sleepにする
                     //timer10秒
-                    if(timer <= 3f)
-                    {
+                    
                         State = ColonistState.Idle;
-                    }
+                    
 
                 }
                 break;
             case ColonistState.Sleep://就寝
 
                 //1秒間に8ポイント回復させる
-                currentHealth += 8f * Time.deltaTime;
+                currentHealth +=RecoveryRate* 8f * Time.deltaTime;
                 //もしコロニストの体力が完全に回復したら
                 if (currentHealth >= MaxHealth)
                 {
