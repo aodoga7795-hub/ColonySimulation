@@ -23,6 +23,21 @@ public class ColonistManager : MonoBehaviour
     /// </summary>
     public ColonistUIManager[] ColonistUIManagers;
 
+    /// <summary>
+    /// 採掘場の位置
+    /// </summary>
+    public Transform MinePoint;
+
+    /// <summary>
+    /// 倉庫の位置
+    /// </summary>
+    public Transform WarehousePoint;
+
+    /// <summary>
+    /// 市場の位置
+    /// </summary>
+    public Transform MarketPoint;
+
 
     private void Start()
     {
@@ -33,13 +48,22 @@ public class ColonistManager : MonoBehaviour
         for(int i = 0; i < ColonistCount; i++)
         {
             //登場する位置を決める(１体目は原点、2体目はX軸正の方向に２ｍ...
-            Vector3 position = new Vector3(i * 2, 0, 0);
+            Vector3 position = new Vector3(i * 2, 1, 0);
             //GameObjectをScene内に生成
             GameObject instantiateObject= 
                 Instantiate(ColonistPrefab,position,Quaternion.identity);
 
             //一斉命令用のColonistAIを生成したGameObjectから取得
             Colonists[i] = instantiateObject.GetComponent<ColonistAI>();
+
+            //コロニストに採掘場への場所を教える
+            Colonists[i].MinePoint = MinePoint.position;
+
+            //コロニストに倉庫の場所を教える
+            Colonists[i].Warehouse = WarehousePoint;
+
+            //コロニストに市場の場所を教える
+            Colonists[i].MarketPosition = MarketPoint;
 
             //コロニストのUI表示用のマネージャーに生成されたColonistAIをセット
             ColonistUIManagers[i].SetColonistAI(Colonists[i]);
