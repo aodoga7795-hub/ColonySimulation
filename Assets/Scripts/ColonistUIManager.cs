@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ColonistUIManager : MonoBehaviour
@@ -5,6 +6,8 @@ public class ColonistUIManager : MonoBehaviour
     private ColonistHealthUI colonistHealthUI;
 
     private ColonistStatusUI colonistStatusUI;
+
+    public TextMeshProUGUI NameText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     /// <summary>
@@ -26,6 +29,8 @@ public class ColonistUIManager : MonoBehaviour
     {
         colonistHealthUI.ColonistAI = colonistAI;
         colonistStatusUI.ColonistAI = colonistAI;
+        //ñºëOÇÃï\é¶ÇçsÇ§
+        NameText.text = colonistAI.gameObject.name;
 
     }
    
