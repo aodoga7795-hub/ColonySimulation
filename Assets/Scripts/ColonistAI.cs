@@ -79,6 +79,7 @@ public class ColonistAI : MonoBehaviour
     /// <summary>
     /// 空腹度
     /// </summary>
+    [SerializeField]
     private float hunger = 100f;
 
     /// <summary>
@@ -112,6 +113,11 @@ public class ColonistAI : MonoBehaviour
     /// ベーカリー(食事する場所）の位置
     /// </summary>
     public Transform BakeryPosition;
+
+    /// <summary>
+    /// ベーカリーの機能
+    /// </summary>
+    public Bakery Bakery;
 
     public ColonistState State;
     /// <summary>
@@ -245,6 +251,7 @@ public class ColonistAI : MonoBehaviour
                 HandleSleep();
                 break;
         }
+        currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
     }
 
     /// <summary>
@@ -417,7 +424,10 @@ public class ColonistAI : MonoBehaviour
     /// 食事中の行動
     /// </summary>
     private void HandleEat()
+
+
     {
+
         if(targetPosition != BakeryPosition.position)
         {
             targetPosition = BakeryPosition.position;
@@ -426,15 +436,29 @@ public class ColonistAI : MonoBehaviour
           transform.position, targetPosition, MoveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f){
-            //食事の場所に行ったら1秒で20ポイント回復
-            hunger += 20f * Time.deltaTime;
 
-            //ストレスが1秒で5ポイント減る
-            stress -= 5f * Time.deltaTime;
+            if (Bakery.CanEat())
+            {
+                //食事をしてFoodStockを減らす
+                Bakery.Eat();
 
-            //体力が1秒で2ポイント回復
-            currentHealth += 2f * Time.deltaTime;
+                //食事の場所に行ったら1秒で20ポイント回復
 
+                hunger += 20f * Time.deltaTime;
+
+                //ストレスが1秒で5ポイント減る
+                stress -= 5f * Time.deltaTime;
+
+                //体力も回復させる
+                currentHealth += 2f * hunger * Time.deltaTime;
+                //Mathf.Clamp(値、最小値、最大値）で最小値から最大値までの値に
+                //制限してくれます
+                currentHealth = Mathf.Clamp(currentHealth,0, MaxHealth);
+            }
+            else//食べ物がない場合
+            {
+                currentHealth += 2f * hunger * Time.deltaTime;
+            }
             //もし満腹になったら
             if (hunger >= 100f)
             {
@@ -452,7 +476,7 @@ public class ColonistAI : MonoBehaviour
     private void HandleSleep()
     {
         //1秒間に8ポイント回復させる
-        currentHealth += RecoveryRate * 8f * Time.deltaTime;
+        currentHealth += hunger * 8f * Time.deltaTime;
 
         //1秒間に5ポイントずつストレスが減る
         stress -= 5f * Time.deltaTime;
