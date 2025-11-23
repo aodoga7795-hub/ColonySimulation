@@ -7,6 +7,9 @@ public class ColonistUIManager : MonoBehaviour
 
     private ColonistStatusUI colonistStatusUI;
 
+    private JobSwitchUI SwitchUI;
+
+
     public TextMeshProUGUI NameText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,6 +22,8 @@ public class ColonistUIManager : MonoBehaviour
         //このコンポーネントが追加されたGameObjectの階層下から取得する
         colonistHealthUI = GetComponentInChildren<ColonistHealthUI>();
         colonistStatusUI = GetComponentInChildren<ColonistStatusUI>();
+        SwitchUI = GetComponentInChildren<JobSwitchUI>();
+
     }
 
 
@@ -29,6 +34,9 @@ public class ColonistUIManager : MonoBehaviour
     {
         colonistHealthUI.ColonistAI = colonistAI;
         colonistStatusUI.ColonistAI = colonistAI;
+
+        //JobSwitchUIにColonistAIを割り当てる
+        SwitchUI.SetSwitchUI(colonistAI);
         //名前の表示を行う
         NameText.text = colonistAI.gameObject.name;
 

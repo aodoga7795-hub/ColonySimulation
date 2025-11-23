@@ -17,6 +17,19 @@ public class ColonistAI : MonoBehaviour
         Dead //死亡
         
     }
+
+    public ColonistState State;
+
+    public enum JobType
+    {
+        Invalid = -1,//定義されていない
+            Miner,　//採掘者
+            Carrier　//運搬者
+    }
+    //いったん全ての住人は採掘者とする
+    public JobType Job = JobType.Miner;
+
+
     public float MoveSpeed = 2.0f;
     private Vector3 targetPosition = new Vector3(2, 0, 2);
 
@@ -119,7 +132,21 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     public Bakery Bakery;
 
-    public ColonistState State;
+    /// <summary>
+    /// 採掘場の機能
+    /// </summary>
+    public MineSite MineSite;
+
+    /// <summary>
+    /// 運搬中の採掘資産
+    /// </summary>
+    private float carryingAmount = 0f;
+
+    /// <summary>
+    /// コロニストが持てる採掘資産の最大値
+    /// </summary>
+    private float carryingCapacity = 10f;
+
     /// <summary>
     /// コロニストの状態を変更するためのタイマー
     /// [SerializeField]のようなものを属性(Attribute)という
@@ -304,6 +331,26 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     private void HandleMine()
     {
+        //もしジョブが運搬者だったら
+        if (Job == JobType.Carrier)
+        {
+            //採掘場の共有資産が自分が持てるキャパシティーに到達しているか
+            if (MineSite.SharedMinedResorce >= carryingCapacity)
+            {
+                //自分が持てるキャパシティー分を採掘場から取得してくる
+                carryingAmount = MineSite.TakeResource(carryingCapacity);
+                Debug.Log($"{name}が{carryingAmount}分資源を回収しました");
+                //取得出来たら運ぶという状態にする
+                State = ColonistState.Carry;
+                //移動先を倉庫の位置にする
+                targetPosition = Warehouse.position;
+                //ここから下の処理を行わない
+                return;
+            }
+           
+
+           
+        }
         //仮で採掘アニメーション再生の代わりにログを出力
         Debug.Log("Colonist is mining!");
         //毎フレーム回転させ続ける
@@ -323,29 +370,53 @@ public class ColonistAI : MonoBehaviour
         if (timer <= 0f)
         {
             int mined = Mathf.RoundToInt(10 * MiningSkill);
-            MinedResource += mined;
-            Debug.Log($"採掘完了{mined}(合計{MinedResource})");
+            //MinedResource += mined;
 
-            //State = ColonistState.Sleep;
+            //Debug.Log($"採掘完了{mined}(合計{MinedResource})");
+            MineSite.AddResorce(mined);
+
+            Debug.Log($"採掘完了{mined}(合計{MineSite.SharedMinedResorce})");
+            MinedResource = 0;
+
+
+            
             //timerを10秒から15秒に設定
             timer = Random.Range(10f, 15f);
-            //stateをColonistState.Sleepにする
-            //timer10秒
-
-            //掘り終わったら運ぶという状態にする
-            State = ColonistState.Carry;
-
-            //移動先を倉庫の位置にする
-            targetPosition = Warehouse.position;
-
+            //jobが採掘者だったら
+            if(Job == JobType.Miner)
+            {
+                State = ColonistState.Mine;
+            }
+            else if (Job == JobType.Carrier)
+            {
+                State = ColonistState.Carry;
+                //移動先を倉庫の位置にする
+                targetPosition = Warehouse.position;
+                //採掘場の共有資産が自分が持てるキャパシティーに到達しているか
+                if (MineSite.SharedMinedResorce >= carryingCapacity)
+                {
+                    //自分が持てるキャパシティー分を採掘場から取得してくる
+                    carryingAmount = MineSite.TakeResource(carryingCapacity);
+                    Debug.Log($"{name}が{carryingAmount}分資源を回収しました");
+                }
+                else
+                {
+                    //採掘場の共有資産がなかったら自分も採掘を行う
+                    State = ColonistState.Mine;
+                }
+            }
 
         }
     }
+
     /// <summary>
     /// 運搬中の行動
     /// </summary>
     private void HandleCarry()
     {
+       
+
+
         transform.position = Vector3.MoveTowards(
            transform.position, targetPosition, MoveSpeed * Time.deltaTime);
 
@@ -362,9 +433,12 @@ public class ColonistAI : MonoBehaviour
             if (warehouse != null)
             {
                 //倉庫に採掘した量を追加する
-                warehouse.Store(MinedResource);
-                //倉庫に置いたので手持ちの採掘量を０にする
-                MinedResource = 0;
+                //carryingAmountはFloat型なのでInt型でキャストします
+                //キャストとは（型）変数で変数を型に変換することです
+                //今回はfloat（小数点付きの値）をint（整数）に変換しました
+                warehouse.Store((int)carryingAmount);
+                //倉庫に置いたので運搬中の採掘量を０にする
+                carryingAmount = 0;
             }
             
 

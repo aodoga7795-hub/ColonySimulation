@@ -96,6 +96,9 @@ public class ColonistManager : MonoBehaviour
             //コロニストに採掘場への場所を教える
             Colonists[i].MinePoint = MinePoint.position;
 
+            //コロニストに採掘場の機能を教える
+            Colonists[i].MineSite = MinePoint.GetComponent<MineSite>();
+
             //コロニストに倉庫の場所を教える
             Colonists[i].Warehouse = WarehousePoint;
 
@@ -107,6 +110,8 @@ public class ColonistManager : MonoBehaviour
 
             //コロニストにBakeryの状態を教える
             Colonists[i].Bakery = BakeryPoint.GetComponent<Bakery>();
+
+
 
             //コロニストのUI表示用のマネージャーに生成されたColonistAIをセット
             ColonistUIManagers[i].SetColonistAI(Colonists[i]);
