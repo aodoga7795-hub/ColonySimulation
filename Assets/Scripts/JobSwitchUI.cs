@@ -51,5 +51,10 @@ public class JobSwitchUI : MonoBehaviour
     {
         JobLabel.text = $"Job:{ColonistAI.Job}";
     }
-  
+
+    private void Update()
+    {
+        //毎フレームColonistAIの職業を監視して、その文字を出し続ける
+        UpdateLabel();
+    }
 }
