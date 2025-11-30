@@ -31,7 +31,44 @@ public class TimeManager : MonoBehaviour
 
         Time.timeScale = scale;
         Debug.Log($"TimeScale:{scale}");
+        //êFÇ‡ê›íË
+        SetButtonColor(scale);
 
     }
-    
+    private void SetButtonColor(float scale)
+    {
+        //âΩî{ë¨ÇâüÇµÇΩÇ©
+        switch (scale)
+        {
+            case 0f:
+                PauseButton.image.color = Color.white;
+                PlayButton.image.color = Color.gray5;
+                Speed2xbutton.image.color = Color.gray5;
+                Speed3xbutton.image.color = Color.gray5;
+
+                break;
+
+            case 1f:
+                PauseButton.image.color = Color.gray5;
+                PlayButton.image.color = Color.white;
+                Speed2xbutton.image.color = Color.gray5;
+                Speed3xbutton.image.color = Color.gray5;
+
+                break;
+
+            case 2f:
+                PauseButton.image.color = Color.gray5;
+                PlayButton.image.color = Color.gray5;
+                Speed2xbutton.image.color = Color.white;
+                Speed3xbutton.image.color = Color.gray5;
+                break;
+
+            case 3f:
+                PauseButton.image.color = Color.gray5;
+                PlayButton.image.color = Color.gray5;
+                Speed2xbutton.image.color = Color.gray5;
+                Speed3xbutton.image.color = Color.white;
+                break;
+        }
+    }
 }
