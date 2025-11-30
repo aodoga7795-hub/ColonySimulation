@@ -10,7 +10,8 @@ public class WarehouseUI : MonoBehaviour
     private void Update()
     {
         //‘qŒÉ“à‚ÌŽ‘Œ¹‚ð•\Ž¦
-        ResourcesText.text = $"{Warehouse.StoredResources}/{Warehouse.GetMaxStockAmount}";
+        ResourcesText.text =
+            $"Mined resource : {Warehouse.StoredResources}/{Warehouse.GetMaxStockAmount}";
 
     }
 
