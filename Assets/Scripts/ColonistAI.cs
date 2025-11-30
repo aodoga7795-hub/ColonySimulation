@@ -246,17 +246,21 @@ public class ColonistAI : MonoBehaviour
         //1•bŠÔ‚É‚Pƒ|ƒCƒ“ƒg‚¸‚ÂƒXƒgƒŒƒX‚ª‚©‚©‚Á‚Ä‚¢‚­
         stress += 1f * Time.deltaTime;
 
-        //ƒXƒgƒŒƒX‚ªŒÀŠE‚ğ’´‚¦‚½‚çŸè‚É‹xŒe‚É“ü‚é
-        if(stress >= 100f)
+        //‹ó• ’l‚ğ—Dæ
+        if (hunger <= 30f)//‹ó• “x‚ª‚R‚O‚ğ‰º‰ñ‚Á‚½‚Æ‚µ‚Ä‚à
+        {
+
+            Debug.Log($"{name}‚Í‚¨• ‚ªŒ¸‚Á‚½‚Ì‚ÅA‹xŒe‚É“ü‚è‚Ü‚·");
+            State = ColonistState.Eat;
+        }
+
+        //ó‘Ô‚ªEat‚¶‚á‚È‚­‚ÄƒXƒgƒŒƒX‚ªŒÀŠE‚ğ’´‚¦‚½‚çŸè‚É‹xŒe‚É“ü‚é
+        if (State != ColonistState.Eat && stress >= 100f)
         {
             Debug.Log($"{name}‚ÍƒXƒgƒŒƒX‚ªŒÀŠEI‹xŒe‚É“ü‚è‚Ü‚·I");
             State = ColonistState.Rest;
         }
-        else if (hunger <= 30f)//‹ó• “x‚ª‚R‚O‚ğ‰º‰ñ‚Á‚½‚Æ‚µ‚Ä‚à
-        {
-            Debug.Log($"{name}‚Í‚¨• ‚ªŒ¸‚Á‚½‚Ì‚ÅA‹xŒe‚É“ü‚è‚Ü‚·");
-            State = ColonistState.Eat;
-        }
+        
 
 
         //¬‚©‚Á‚±‚Ì’†‚Ì•Ï”‚ğg‚Á‚Äˆ—‚ğ•ªŠò(switch)‚³‚¹‚é
