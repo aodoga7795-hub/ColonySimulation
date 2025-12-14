@@ -4,6 +4,11 @@ public class Bakery : MonoBehaviour
 {
     public float FoodStock = 100;
 
+    /// <summary>
+    /// 食糧庫の最大積載数
+    /// </summary>
+    public float MaxFoodStock = 100f;
+
 
     /// <summary>
     /// 倉庫資源10→食料１に変えるルート
@@ -52,6 +57,14 @@ public class Bakery : MonoBehaviour
 
             return;
         }
+        //現在の食糧の値が最大積載数を超えていたら
+        if(FoodStock > MaxFoodStock)
+        {
+            //交換を行わずに返る
+            return;
+
+        }
+
         //倉庫に十分な在庫があったとき
         if (Warehouse.HasEnough(ExchangeRate))
         {

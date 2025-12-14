@@ -596,6 +596,7 @@ MonoBehaviour:
   WarehousePoint: {fileID: 1044327605}
   MarketPoint: {fileID: 1320359321}
   BakeryPoint: {fileID: 885472023}
+  ConstructionPoint: {fileID: 434120150}
 --- !u!1 &335885626
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,6 +919,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 420576316}
   m_CullTransparentMesh: 1
+--- !u!1 &434120149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 434120150}
+  - component: {fileID: 434120151}
+  m_Layer: 0
+  m_Name: ConstructionSite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434120150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434120149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.05, y: 0, z: 1.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &434120151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434120149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c751757d08031b47b054cad8943e983, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConstructionSite
+  BuildingName: House
+  CompletedPrefab: {fileID: 100000, guid: 81ae10d5415799d4db940c6fe498e861, type: 3}
+  BuildPoint: {fileID: 0}
+  RequiredWork: 100
+  ResourcePerWork: 1
+  Warehouse: {fileID: 1044327608}
 --- !u!1 &537002105
 GameObject:
   m_ObjectHideFlags: 0
@@ -5753,3 +5804,4 @@ SceneRoots:
   - {fileID: 335885627}
   - {fileID: 1237651250}
   - {fileID: 662304261}
+  - {fileID: 434120150}

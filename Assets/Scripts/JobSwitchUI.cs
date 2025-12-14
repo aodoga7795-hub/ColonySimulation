@@ -39,7 +39,11 @@ public class JobSwitchUI : MonoBehaviour
        //そうじゃなくてColonistのジョブが運搬者だったら
        else if(ColonistAI.Job == ColonistAI.JobType.Carrier)
         {
-            //採掘者に変更します
+            //建築作業員に変更します
+            ColonistAI.Job = ColonistAI.JobType.Builder;
+        }
+       else if (ColonistAI.Job ==ColonistAI.JobType.Builder)
+        {//採掘者に変更します
             ColonistAI.Job = ColonistAI.JobType.Miner;
         }
         UpdateLabel();
