@@ -16,6 +16,10 @@ public class JobSwitchUI : MonoBehaviour
     /// </summary>
     public TextMeshProUGUI JobLabel;
 
+    /// <summary>
+    /// 仕事を変更したときに鳴らす音
+    /// </summary>
+    public AudioClip JobSwitchSEClip;
 
 
     /// <summary>
@@ -30,6 +34,10 @@ public class JobSwitchUI : MonoBehaviour
     }
     public void ToggleJob()
     {
+        //ボタンのスイッチ音を鳴らす
+        SEManager.Instance.PlaySE(JobSwitchSEClip);
+
+
         //もしColonistのジョブが採掘者だったら
        if(ColonistAI.Job== ColonistAI.JobType.Miner)
         {

@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: 1e6e969c6f438564ab50e4613a1a3186
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PauseButton: {instanceID: 0}
+  - PlayButton: {instanceID: 0}
+  - Speed2xbutton: {instanceID: 0}
+  - Speed3xbutton: {instanceID: 0}
+  - StopSE: {instanceID: 0}
+  - PlaySE: {instanceID: 0}
+  - SpeedUpSE: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

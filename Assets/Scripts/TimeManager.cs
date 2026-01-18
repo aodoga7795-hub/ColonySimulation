@@ -10,16 +10,40 @@ public class TimeManager : MonoBehaviour
     public Button Speed3xbutton; //3”{‘¬
 
 
+    public AudioClip StopSE;
+    public AudioClip PlaySE;
+    public AudioClip SpeedUpSE;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //ƒQ[ƒ€‚ªŠJŽn‚µ‚½‚Æ‚«‚Í“™”{‘¬
         SetTimeScale(1f);
 
-        PauseButton.onClick.AddListener(() => SetTimeScale(0f));
-        PlayButton.onClick.AddListener(() => SetTimeScale(1f));
-        Speed2xbutton.onClick.AddListener(() => SetTimeScale(2f));
-        Speed3xbutton.onClick.AddListener(() => SetTimeScale(3f));
+        PauseButton.onClick.AddListener(() =>
+        {
+            SetTimeScale(0f);
+            SEManager.Instance.PlaySE(StopSE);
+            });
+
+        PlayButton.onClick.AddListener(() =>
+        {
+            SetTimeScale(1f);
+            SEManager.Instance.PlaySE(PlaySE);
+            });
+
+        Speed2xbutton.onClick.AddListener(() =>
+        {
+            SetTimeScale(2f);
+            SEManager.Instance.PlaySE(SpeedUpSE);
+        });
+        Speed3xbutton.onClick.AddListener(() =>
+        {
+            SetTimeScale(3f);
+            SEManager.Instance.PlaySE(SpeedUpSE);
+        });
     }
 
     /// <summary>
